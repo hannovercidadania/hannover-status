@@ -2,43 +2,40 @@
 
 Monitoramento externo do CRM e dos sites da Hannover Cidadania Alemã.
 
-**Como olhar:** o arquivo [STATUS.md](STATUS.md) deste repositório, atualizado a cada verificação. Markdown é renderizado pelo github.com mesmo em repositório privado, então abre do celular quando todo o resto está fora do ar.
+**Status atual:** [STATUS.md](STATUS.md), atualizado a cada verificação.
 
-## Por que este repositório existe separado
+## Por que fora da própria infraestrutura
 
-Em 05 e 06.08.2026 o CRM caiu duas vezes. Nas duas, a informação existia e o aviso
-falhou pelo mesmo motivo: **quem devia perceber estava dentro do mesmo prédio que
-caiu.** Um cron da Vercel não avisa quando a Vercel engasga, e nenhuma verificação
-que consulte o Supabase avisa quando o Supabase para.
+Um monitor que roda no mesmo lugar que ele vigia cai junto com o que deveria
+vigiar. Cron hospedado na Vercel não avisa quando a Vercel engasga, e verificação
+que consulta o banco não avisa quando o banco para.
 
-O vigia roda no **GitHub Actions**, que não é Vercel nem Supabase. É a única peça do
-conjunto que sobrevive à queda do que ela vigia.
+Este vigia roda no **GitHub Actions**, que não é nenhum dos dois.
 
 ## O que ele mede
 
 | Alvo | Como | Crítico |
 |---|---|---|
-| CRM | `/api/saude`, que **executa** a consulta da lista de conversas e um cálculo puro no banco | sim |
+| CRM | `/api/saude`, que **executa** a consulta real da lista de conversas e um cálculo puro no banco | sim |
 | Site Hannover | página inicial | sim |
-| Site Viena, EUA, Werlang | página inicial | não |
+| Sites Viena, German Citizenship e Werlang | página inicial | não |
 
-O endereço de saúde do CRM devolve **502** quando alguma peça está em falha, então o
-vigia decide pelo código HTTP.
+O endereço de saúde do CRM responde **502** quando alguma peça está em falha, então
+o vigia decide pelo código HTTP.
 
-**Medir o trabalho, e não a porta.** Foi o erro que eu cometi duas vezes: um monitor
-que cronometrava rota protegida sem sessão registrou "tudo ok" com 31 ms no meio de
-um apagão, porque uma rota protegida responde 401 antes de tocar no banco.
+**Medir o trabalho, não a porta.** Uma rota protegida responde 401 em milissegundos
+sem tocar no banco: cronometrar isso dá a impressão de saúde mesmo com o sistema
+inutilizável. Por isso o endereço de saúde executa trabalho de verdade.
 
 ## Como o aviso chega
 
-Quando um alvo **crítico** está fora, o job **falha de propósito**, e o GitHub manda
-e-mail de falha de workflow. Sem SMTP, sem segredo, sem serviço terceiro para
-manter.
+Quando um alvo **crítico** está fora, o job **falha de propósito**, e o GitHub
+notifica por e-mail. Sem SMTP, sem segredo e sem serviço de terceiro para manter.
 
-O que falhou uma vez é medido de novo 4 segundos depois. Blip de rede da máquina do
+O que falha uma vez é medido de novo 4 segundos depois. Blip de rede na máquina do
 Actions não pode virar alarme: alarme falso ensina a ignorar o alarme.
 
-## O que NÃO aparece aqui
+## O que não aparece aqui
 
-Nenhum dado de cliente e nenhum número do negócio. A página mostra estado por peça e
-tempo de resposta. Detalhe operacional fica no `/status` do CRM, que exige login.
+Nenhum dado de cliente e nenhum número do negócio. A página mostra o estado de cada
+peça e o tempo de resposta. O detalhe operacional fica no CRM, atrás de login.
