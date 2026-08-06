@@ -1,0 +1,47 @@
+name: Vigia
+
+# A CADA 30 MINUTOS, e o motivo é orçamento, não escolha técnica.
+#
+# Repositório PRIVADO na conta pessoal tem 2.000 minutos de Actions por mês, e o
+# GitHub cobra no mínimo 1 minuto por execução. A cada 5 min seriam ~8.640
+# minutos/mês (uns US$ 53 de excedente); a cada 30 min são ~1.440, dentro do
+# gratuito.
+#
+# Isso é aceitável porque o vigia é a SEGUNDA camada: a sentinela interna do CRM
+# roda a cada 4 minutos e pega quase tudo. O que só este vigia pega é a queda da
+# nossa própria infraestrutura, quando o alarme de dentro cai junto. Para apertar
+# o intervalo, o caminho é tornar este repositório público (minutos ilimitados) ou
+# pagar minutos.
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vigia
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Medir
+        run: node vigia.mjs
+
+      # Grava SEMPRE, inclusive quando acusou queda: o histórico da queda é
+      # justamente o que se quer olhar depois. Por isso `if: always()`, e por isso
+      # o vigia.mjs só sai com erro no final, depois de escrever os arquivos.
+      - name: Guardar resultado
+        if: always()
+        run: |
+          git config user.name 'Vigia Hannover'
+          git config user.email 'fabio@passaportealemao.com.br'
+          git add docs/historico.json docs/index.html STATUS.md
+          git diff --quiet --cached || git commit -m "status $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git pull --rebase --autostash -q origin main || true
+          git push -q origin HEAD:main
