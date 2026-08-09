@@ -1,26 +1,26 @@
 # Status dos sistemas
 
 **🟢 Todos os sistemas de pé.**
-Última verificação: 09/08/2026, 11:03:51 (Brasília).
+Última verificação: 09/08/2026, 11:46:35 (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-| CRM | 🟢 de pé | 200 · 3808 ms | 97.1% | 96.2% |
-| Site Hannover | 🟢 de pé | 200 · 256 ms | 100.00% | 100.00% |
-| Site Viena | 🟢 de pé | 200 · 374 ms | 100.00% | 100.00% |
-| Site German Citizenship | 🟢 de pé | 200 · 178 ms | 100.00% | 100.00% |
-| Site Werlang | 🟢 de pé | 200 · 304 ms | 100.00% | 100.00% |
+| CRM | 🟢 de pé | 200 · 5165 ms | 97.1% | 96.2% |
+| Site Hannover | 🟢 de pé | 200 · 209 ms | 100.00% | 100.00% |
+| Site Viena | 🟢 de pé | 200 · 413 ms | 100.00% | 100.00% |
+| Site German Citizenship | 🟢 de pé | 200 · 216 ms | 100.00% | 100.00% |
+| Site Werlang | 🟢 de pé | 200 · 336 ms | 100.00% | 100.00% |
 
 ## Peças do CRM na última medição
 
-- 🟢 **Banco de dados** — 752 ms
-- 🟢 **Inbox** — 986 ms
-- 🟢 **Anexos** — 161 ms
+- 🟢 **Banco de dados** — 981 ms
+- 🟢 **Inbox** — 937 ms
+- 🟢 **Anexos** — 182 ms
 - 🟢 **WhatsApp (Z-API)**
 - 🟢 **Conta Azul**
 - 🟢 **Clicksign**
 - 🟢 **ClickUp (processos)**
-- 🟢 **Instagram e Messenger**
+- 🟡 **Instagram e Messenger**
 
 ---
 Verificado a cada 30 minutos por um vigia que roda no GitHub, fora da Vercel e fora
