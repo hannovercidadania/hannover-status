@@ -1,21 +1,21 @@
 # Status dos sistemas
 
 **🟢 Todos os sistemas de pé.**
-Última verificação: 18/08/2026, 13:28:46 (Brasília).
+Última verificação: 18/08/2026, 13:58:46 (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-| CRM | 🟢 de pé | 200 · 3550 ms | 88.4% | 95.3% |
-| Site Hannover | 🟢 de pé | 200 · 92 ms | 100.00% | 100.00% |
-| Site Viena | 🟢 de pé | 200 · 321 ms | 100.00% | 100.00% |
-| Site German Citizenship | 🟢 de pé | 200 · 105 ms | 100.00% | 100.00% |
-| Site Werlang | 🟢 de pé | 200 · 191 ms | 100.00% | 100.00% |
+| CRM | 🟢 de pé | 200 · 3554 ms | 90.7% | 95.3% |
+| Site Hannover | 🟢 de pé | 200 · 326 ms | 100.00% | 100.00% |
+| Site Viena | 🟢 de pé | 200 · 752 ms | 100.00% | 100.00% |
+| Site German Citizenship | 🟢 de pé | 200 · 338 ms | 100.00% | 100.00% |
+| Site Werlang | 🟢 de pé | 200 · 323 ms | 100.00% | 100.00% |
 
 ## Peças do CRM na última medição
 
-- 🟢 **Banco de dados** — 752 ms
-- 🟢 **Inbox** — 777 ms
-- 🟢 **Anexos** — 173 ms
+- 🟢 **Banco de dados** — 759 ms
+- 🟢 **Inbox** — 780 ms
+- 🟢 **Anexos** — 162 ms
 - 🟢 **WhatsApp (Z-API)**
 - 🟢 **Conta Azul**
 - 🟢 **Clicksign**
