@@ -1,23 +1,23 @@
 # Status dos sistemas
 
-**🔴 Há sistema fora do ar.**
-Última verificação: 18/08/2026, 04:58:17 (Brasília).
+**🟢 Todos os sistemas de pé.**
+Última verificação: 18/08/2026, 05:40:48 (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-| CRM | 🔴 fora | 502 · 528 ms | 90.9% | 95.9% |
-| Site Hannover | 🟢 de pé | 200 · 512 ms | 100.00% | 100.00% |
-| Site Viena | 🟢 de pé | 200 · 558 ms | 100.00% | 100.00% |
-| Site German Citizenship | 🟢 de pé | 200 · 469 ms | 100.00% | 100.00% |
-| Site Werlang | 🟢 de pé | 200 · 465 ms | 100.00% | 100.00% |
+| CRM | 🟢 de pé | 200 · 3854 ms | 90.9% | 95.9% |
+| Site Hannover | 🟢 de pé | 200 · 242 ms | 100.00% | 100.00% |
+| Site Viena | 🟢 de pé | 200 · 570 ms | 100.00% | 100.00% |
+| Site German Citizenship | 🟢 de pé | 200 · 55 ms | 100.00% | 100.00% |
+| Site Werlang | 🟢 de pé | 200 · 541 ms | 100.00% | 100.00% |
 
 ## Peças do CRM na última medição
 
-- 🟢 **Banco de dados** — 776 ms
-- 🟢 **Inbox** — 760 ms
-- 🟢 **Anexos** — 416 ms
+- 🟢 **Banco de dados** — 1022 ms
+- 🟢 **Inbox** — 1010 ms
+- 🟢 **Anexos** — 193 ms
 - 🟡 **WhatsApp (Z-API)**
-- 🔴 **Conta Azul**
+- 🟢 **Conta Azul**
 - 🟢 **Clicksign**
 - 🟢 **ClickUp (processos)**
 - 🟢 **Instagram e Messenger**
