@@ -215,7 +215,7 @@ ${medicoes.map(m => `| ${m.nome} | ${emoji(m)} ${rotulo(m)} | ${m.status ?? (m.e
 ${(medicoes.find(m => m.chave === 'crm')?.componentes ?? []).length === 0
   ? '_O CRM não devolveu o detalhe das peças._'
   : (medicoes.find(m => m.chave === 'crm')?.componentes ?? [])
-      .map(c => `- ${c.estado === 'ok' ? '🟢' : c.estado === 'atencao' ? '🟡' : '🔴'} **${c.nome}**${c.ms != null ? ` — ${c.ms} ms` : ''}`)
+      .map(c => `- ${c.estado === 'ok' ? '🟢' : c.estado === 'atencao' ? '🟡' : '🔴'} **${c.nome}**${c.ms != null ? ` · ${c.ms} ms` : ''}${c.causa ? ` · ${c.causa}` : ''}`)
       .join('\n')}
 
 ---
