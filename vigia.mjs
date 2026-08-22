@@ -37,13 +37,19 @@ async function medir(alvo) {
     })
     const ms = Date.now() - inicio
     let componentes = []
+    let degradado = false
     if (alvo.saude) {
       try {
         const corpo = await r.json()
         componentes = Array.isArray(corpo?.componentes) ? corpo.componentes : []
+        // 22.08.2026: o /api/saude passou a distinguir origem. Peça NOSSA fora
+        // devolve 502; peça de TERCEIRO fora devolve 200 com estado
+        // "degradado". Antes disso qualquer fornecedor fora virava "CRM fora do
+        // ar" aqui, e numa noite só isso gerou três avisos errados.
+        degradado = corpo?.estado === 'degradado'
       } catch { /* corpo ilegível: o código HTTP já diz o essencial */ }
     }
-    return { chave: alvo.chave, nome: alvo.nome, status: r.status, ms, ok: r.status >= 200 && r.status < 400, componentes }
+    return { chave: alvo.chave, nome: alvo.nome, status: r.status, ms, ok: r.status >= 200 && r.status < 400, degradado, componentes }
   } catch (e) {
     // Timeout e erro de rede contam como queda: do lado de fora, a diferença
     // entre "não respondeu" e "respondeu erro" não muda a vida da equipe.
@@ -79,7 +85,7 @@ writeFileSync(HISTORICO, JSON.stringify(recorte))
 
 // ── Página ──────────────────────────────────────────────────────────────────────
 const cor = { ok: '#437057', atencao: '#ffd56c', falha: '#ff293e' }
-const estadoDe = m => (m.ok ? 'ok' : 'falha')
+const estadoDe = m => (!m.ok ? 'falha' : m.degradado ? 'atencao' : 'ok')
 
 function disponibilidade(chave, horas) {
   const corte = Date.now() - horas * 3600 * 1000
@@ -112,7 +118,7 @@ const cartoes = medicoes.map(m => {
     <header>
       <span class="dot grande" style="background:${cor[e]}"></span>
       <h2>${m.nome}</h2>
-      <span class="estado" style="color:${cor[e]}">${m.ok ? 'De pé' : 'Fora do ar'}</span>
+      <span class="estado" style="color:${cor[e]}">${!m.ok ? 'Fora do ar' : m.degradado ? 'De pé, integração fora' : 'De pé'}</span>
     </header>
     <p class="meta">
       ${m.status ? `HTTP ${m.status}` : (m.erro ?? 'sem resposta')} · ${m.ms} ms
@@ -125,6 +131,9 @@ const cartoes = medicoes.map(m => {
 }).join('')
 
 const algoFora = medicoes.some(m => !m.ok)
+// Degradado NÃO é queda: o sistema serve, um fornecedor dele não. Aparece em
+// amarelo para não sumir, e não faz o job falhar nem dispara e-mail.
+const algoDegradado = medicoes.some(m => m.ok && m.degradado)
 const criticoFora = medicoes.some(m => !m.ok && ALVOS.find(a => a.chave === m.chave)?.critico)
 
 const html = `<!doctype html>
@@ -186,15 +195,20 @@ writeFileSync('docs/index.html', html)
 // é renderizado pelo github.com, mas Markdown é. Então este arquivo é a versão que
 // o Fabio consegue abrir do celular quando TODO o resto está fora do ar, que é
 // exatamente a hora em que ele vai querer olhar.
-const emoji = m => (m.ok ? '🟢' : '🔴')
+const emoji = m => (!m.ok ? '🔴' : m.degradado ? '🟡' : '🟢')
+const rotulo = m => (!m.ok ? 'fora' : m.degradado ? 'de pé, integração fora' : 'de pé')
 const md = `# Status dos sistemas
 
-**${algoFora ? '🔴 Há sistema fora do ar.' : '🟢 Todos os sistemas de pé.'}**
+**${algoFora
+  ? '🔴 Há sistema fora do ar.'
+  : algoDegradado
+    ? '🟡 Todos os sistemas de pé, com integração de terceiro fora.'
+    : '🟢 Todos os sistemas de pé.'}**
 Última verificação: ${new Date(agora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })} (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-${medicoes.map(m => `| ${m.nome} | ${emoji(m)} ${m.ok ? 'de pé' : 'fora'} | ${m.status ?? (m.erro ?? 'sem resposta')} · ${m.ms} ms | ${pctTexto(disponibilidade(m.chave, 24))} | ${pctTexto(disponibilidade(m.chave, 24 * 7))} |`).join('\n')}
+${medicoes.map(m => `| ${m.nome} | ${emoji(m)} ${rotulo(m)} | ${m.status ?? (m.erro ?? 'sem resposta')} · ${m.ms} ms | ${pctTexto(disponibilidade(m.chave, 24))} | ${pctTexto(disponibilidade(m.chave, 24 * 7))} |`).join('\n')}
 
 ## Peças do CRM na última medição
 
@@ -205,13 +219,15 @@ ${(medicoes.find(m => m.chave === 'crm')?.componentes ?? []).length === 0
       .join('\n')}
 
 ---
-Verificado a cada 30 minutos por um vigia que roda no GitHub, fora da Vercel e fora
-da Supabase. Quando um sistema crítico está fora, este job falha de propósito e o
-GitHub manda e-mail. Nenhum dado de cliente aparece aqui.
+Agendado a cada 5 minutos num vigia que roda no GitHub, fora da Vercel e fora da
+Supabase. O GitHub atrasa e pula agendamentos, então na prática as medições saem a
+cada 20 a 40 minutos: não conte com os 5 minutos. Quando um sistema crítico está
+FORA, este job falha de propósito e o GitHub manda e-mail; integração de terceiro
+fora aparece em amarelo e NÃO dispara aviso. Nenhum dado de cliente aparece aqui.
 `
 writeFileSync('STATUS.md', md)
 
-const linha = medicoes.map(m => `${m.nome}: ${m.ok ? 'ok' : 'FORA'} (${m.status ?? 'sem resposta'}, ${m.ms}ms)`).join(' · ')
+const linha = medicoes.map(m => `${m.nome}: ${!m.ok ? 'FORA' : m.degradado ? 'ok (degradado)' : 'ok'} (${m.status ?? 'sem resposta'}, ${m.ms}ms)`).join(' · ')
 console.log(linha)
 
 if (criticoFora) {
