@@ -1,21 +1,21 @@
 # Status dos sistemas
 
 **🟢 Todos os sistemas de pé.**
-Última verificação: 08/09/2026, 12:16:47 (Brasília).
+Última verificação: 08/09/2026, 15:46:19 (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-| CRM | 🟢 de pé | 200 · 1864 ms | 100.00% | 100.00% |
-| Site Hannover | 🟢 de pé | 200 · 267 ms | 100.00% | 100.00% |
-| Site Viena | 🟢 de pé | 200 · 452 ms | 100.00% | 100.00% |
-| Site German Citizenship | 🟢 de pé | 200 · 182 ms | 100.00% | 100.00% |
-| Site Werlang | 🟢 de pé | 200 · 691 ms | 100.00% | 100.00% |
+| CRM | 🟢 de pé | 200 · 2296 ms | 100.00% | 100.00% |
+| Site Hannover | 🟢 de pé | 200 · 201 ms | 100.00% | 100.00% |
+| Site Viena | 🟢 de pé | 200 · 535 ms | 100.00% | 100.00% |
+| Site German Citizenship | 🟢 de pé | 200 · 107 ms | 100.00% | 100.00% |
+| Site Werlang | 🟢 de pé | 200 · 197 ms | 100.00% | 100.00% |
 
 ## Peças do CRM na última medição
 
-- 🟢 **Banco de dados** · 727 ms · sonda de CPU dentro do teto
-- 🟢 **Inbox** · 1024 ms · lista de conversas dentro do teto
-- 🟢 **Anexos** · 172 ms · bucket de anexos respondendo
+- 🟢 **Banco de dados** · 743 ms · sonda de CPU dentro do teto
+- 🟢 **Inbox** · 1001 ms · lista de conversas dentro do teto
+- 🟢 **Anexos** · 243 ms · bucket de anexos respondendo
 - 🟢 **WhatsApp (Z-API)** · entrada de mensagens dentro do esperado
 - 🟢 **Conta Azul** · credencial válida; o token vence a cada 1 h e é renovado sob demanda, vencido não é falha
 - 🟢 **Clicksign** · cron sincronizando
