@@ -1,15 +1,15 @@
 # Status dos sistemas
 
 **🟢 Todos os sistemas de pé.**
-Última verificação: 19/11/2026, 14:25:34 (Brasília).
+Última verificação: 19/11/2026, 20:40:42 (Brasília).
 
 | Sistema | Agora | Resposta | 24 h | 7 dias |
 |---|---|---|---|---|
-| CRM | 🟢 de pé | 200 · 4949 ms | 100.00% | 100.00% |
-| Site Hannover | 🟢 de pé | 200 · 299 ms | 100.00% | 100.00% |
-| Site Viena | 🟢 de pé | 200 · 486 ms | 100.00% | 100.00% |
-| Site German Citizenship | 🟢 de pé | 200 · 214 ms | 100.00% | 100.00% |
-| Site Werlang | 🟢 de pé | 200 · 558 ms | 100.00% | 100.00% |
+| CRM | 🟢 de pé | 200 · 3324 ms | 100.00% | 100.00% |
+| Site Hannover | 🟢 de pé | 200 · 307 ms | 100.00% | 100.00% |
+| Site Viena | 🟢 de pé | 200 · 773 ms | 100.00% | 100.00% |
+| Site German Citizenship | 🟢 de pé | 200 · 314 ms | 100.00% | 100.00% |
+| Site Werlang | 🟢 de pé | 200 · 593 ms | 100.00% | 100.00% |
 
 ## Peças do CRM na última medição
 
